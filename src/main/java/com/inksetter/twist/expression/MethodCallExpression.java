@@ -1,9 +1,6 @@
 package com.inksetter.twist.expression;
 
-import com.inksetter.twist.EvalContext;
-import com.inksetter.twist.Expression;
-import com.inksetter.twist.TwistException;
-import com.inksetter.twist.ValueUtils;
+import com.inksetter.twist.*;
 
 import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
@@ -32,6 +29,10 @@ public class MethodCallExpression implements Expression {
         for (int i = 0; i < methodArgs.size(); i++) {
             Expression a = methodArgs.get(i);
             argValues[i] = a.evaluate(ctx);
+        }
+
+        if (obj instanceof MethodInterceptor) {
+            return ((MethodInterceptor)obj).invokeMethod(methodName, argValues);
         }
 
         try {

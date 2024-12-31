@@ -774,4 +774,14 @@ public class TwistCoreTest {
                   "ddd":null
                 }""", result);
     }
+
+    @Test
+    public void testMethodInterceptor() throws TwistException {
+        MethodInterceptor interceptor = (name, args) ->
+                "calling " + name + "(" + Arrays.asList(args) + ")";
+        ScriptContext context = new SimpleScriptContext(Map.of("xxx", interceptor), functions);
+        TwistEngine t = new TwistEngine();
+        Object result = t.parseScript("xxx.myMethod(100, 'ABC')").execute(context);
+        assertEquals("calling myMethod([100, ABC])", result);
+    }
 }

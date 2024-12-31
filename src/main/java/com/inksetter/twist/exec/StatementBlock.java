@@ -31,7 +31,7 @@ public class StatementBlock implements Script, Serializable {
         try {
             for (Statement statement : statements) {
                 lastValue = statement.execute(exec);
-                if (lastValue.getType() == StatementResult.Type.RETURN) {
+                if (lastValue != null && lastValue.getType() == StatementResult.Type.RETURN) {
                     return lastValue;
                 }
             }
